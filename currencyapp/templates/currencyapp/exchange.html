@@ -1,0 +1,117 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Currency App</title>
+    <link rel="stylesheet" href="{% static 'style.css' %}">
+
+</head>
+
+<body>
+
+    <h1>FiatExchange</h1>
+    <p class="desc">
+        <small>Find out the current market price of your favourite currencies.</small>
+    </p>
+    <br>
+    <br>
+    <div id="maindiv">
+            
+        <div id="convertdiv">
+            <form action="" method="POST" style="margin-top: 3em;">
+                {% csrf_token %}
+                <label class="labelconvert" style="color: white;">Convert from: </label>
+
+
+                <select name="fcurrency" class="curr">
+                    
+                        {% for d in data %}
+
+                        <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected {% endif %}>{{d.name}} ({{d.symbol}})</option>
+                    {% endfor %}
+
+                </select>
+                <br>
+                <br>
+
+                <input id="amount" type="number" placeholder="Amount" name="amount">
+                <br>
+                <br>
+                <label class="labelconvert" style="color: white;">To: </label>
+                <select name="to_currency" class="curr" id="">
+                   
+                        {% for d in data %}
+                        <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected {% endif %}>{{d.name}} ({{d.symbol}})</option>
+                    {% endfor %}
+                </select>
+                <br>
+                <br>
+                <input id="convert" type="submit" value="Convert" style="border-radius: 5px; width: 7em; height: 3em; border: none; background: #000; color: white; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; font-weight: bolder;">
+            </form>
+            
+            {% if price_data %}
+            <label style="font-weight: bolder; font-size: 1.4rem; margin: auto; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;  color: #fff; "> {{price_data.0|floatformat:"2"|intcomma}} {{price_data.1}}</label>
+            {% endif %}
+                
+           
+        </div>
+
+
+        <div >
+            <label id="chooselabel">Exchange Rate: </label>
+            <form action="">
+            <select name="currency">
+                
+                    {% for d in data %}
+                    <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected {% endif %}>{{d.name}} ({{d.symbol}})</option>
+                {% endfor %}
+
+            </select>
+
+            <input type="submit" value="check" style="height: 3em;">
+
+        </form>
+
+            <a href="{% url 'price' %}" style="margin-left: 10rem; text-decoration: none;">See today's Crypto rates</a>
+        <div style="height: 60vh; margin-right: 5%; overflow-y: auto;"  >
+                {% if currency_rates.conversion_rates %}
+            <table id="exchangeratetable">
+
+                    <tr id="top" >
+                        <td>#</td>
+                        <td>Currency</td>
+                        <td>Exchange Rate</td>
+                    </tr>
+                    
+                    
+                    
+                        
+                        {% for c_code, c_price in currency_rates.conversion_rates.items %}
+                        <tr>
+                            <td>{{forloop.counter }}</td>
+                            <td>{{c_code}}</td>
+                            <td>{{c_price|floatformat:"4"}}</td>
+                        </tr>
+                        {% endfor %}
+                            
+                    
+                        
+                    
+
+                
+            </table>
+            {% endif %}
+        </div>
+       
+        </div>
+
+
+    </div>
+</body>
+
+</html>

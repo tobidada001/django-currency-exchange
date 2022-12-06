@@ -1,0 +1,55 @@
+{% load static %}
+{% load humanize %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>My Currency App</title>
+<link rel="stylesheet" href="{% static 'style.css' %}">
+</head>
+<body>
+    <h1>CryptoCurrency Exchange Rate</h1>
+    <p class="desc"> <small>A simple application that retrieves the current price of cryptocurrencies.</small> </p>
+    <p> <a href="{% url 'exchange' %}" style="text-decoration: none;" class="desc">Convert Fiat</a> </p>
+    <div style="height: 300px;">
+    <table id="cryptotable">
+       
+                <thead id="top" > <tr> <td>#</td> <td>Name</td> <td>Market Cap</td> <td>Price</td> <td>Volume (24h)</td> <td>Circulating Supply</td> <td>Change (24)</td></tr></thead> 
+       
+        <tbody>
+
+            
+            {% if price_data %}
+                
+                
+                {% for pd in  price_data %}
+                
+                <tr>
+                        <td>{{pd.id}}</td>
+                        <td> <img src="https://s2.coinmarketcap.com/static/img/coins/64x64/{{pd.id}}.png" alt="{{pd.name}} logo" width="13" height="13"> {{pd.name}}</td>
+                        <td>${{pd.quote.USD.market_cap|floatformat:"0"|intcomma}}</td>
+                        <td>${{pd.quote.USD.price |floatformat:"2"|intcomma}}</td>
+                        <td>${{pd.quote.USD.volume_24h|floatformat:"0"|intcomma}}</td>
+                        <td>{{pd.circulating_supply|floatformat:"2"|intcomma}} {{pd.symbol}}</td>
+                        
+                        {% if pd.quote.USD.volume_change_24h < 0 %}
+                        <td style="color: red;">{{pd.quote.USD.volume_change_24h|floatformat:"2"|intcomma}}%</td>
+                        {% else %}
+                        <td style="color: green;">{{pd.quote.USD.volume_change_24h|floatformat:"2"|intcomma}}%</td>
+                        {% endif %}
+                            
+                        
+        
+                    </tr>
+                {% endfor %}
+                    
+
+            {% endif %}
+                
+        </tbody>
+    </table>
+</div>
+</body>
+</html>
