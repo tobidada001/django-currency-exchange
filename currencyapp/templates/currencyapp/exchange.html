@@ -32,7 +32,7 @@
                     
                         {% for d in data %}
 
-                        <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected {% endif %}>{{d.name}} ({{d.symbol}})</option>
+                        <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected="selected" {% endif %}>{{d.name}} ({{d.symbol}})</option>
                     {% endfor %}
 
                 </select>
@@ -46,7 +46,7 @@
                 <select name="to_currency" class="curr" id="">
                    
                         {% for d in data %}
-                        <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected {% endif %}>{{d.name}} ({{d.symbol}})</option>
+                        <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected='selected' {% endif %}>{{d.name}} ({{d.symbol}})</option>
                     {% endfor %}
                 </select>
                 <br>
@@ -68,7 +68,7 @@
             <select name="currency">
                 
                     {% for d in data %}
-                    <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected {% endif %}>{{d.name}} ({{d.symbol}})</option>
+                    <option value="{{d.symbol}}"  {% if forloop.counter == 1 %} selected="selected" {% endif %}>{{d.name}} ({{d.symbol}})</option>
                 {% endfor %}
 
             </select>
